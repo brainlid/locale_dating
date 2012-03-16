@@ -79,6 +79,7 @@ Generated wrapper methods:
 * when specifying the name 'last_seen_so_special', it uses it and will be 'last_seen_so_special'
 
 In a view, you specify which version you want used by referencing the name like this:
+
     <%= form_for @person do %>
        <%= f.label :born_on_as_text, 'Born On' %>:
        <%= f.text_field :born_on_as_text %><br />
