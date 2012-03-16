@@ -107,6 +107,12 @@ class PersonTest < ActiveSupport::TestCase
     assert_equal Time.zone.local(2012, 12, 30, 23, 30, 0), p.start_time
   end
 
+  test "support returning a nil value" do
+    p = Person.new
+    assert_equal nil, p.born_on_as_text
+    assert_equal nil, p.start_time_as_text
+    assert_equal nil, p.last_seen_at_as_text
+  end
 
   #
   # Custom Date behavior

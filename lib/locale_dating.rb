@@ -101,7 +101,8 @@ module LocaleDating
           # == Create the GET methods
           # EX: def date_of_birth_text()
           define_method getter_name do
-            I18n.l(self.send(attrib).in_time_zone, :format => options[:format])
+            value = self.send(attrib)
+            I18n.l(value.in_time_zone, :format => options[:format]) if value
           end
           # == Create the SET methods
           # EX: def date_of_birth_text=()
@@ -159,8 +160,8 @@ module LocaleDating
           # == Create the GET methods
           # EX: def date_of_birth_text()
           define_method getter_name do
-            value = self.send(attrib).in_time_zone
-            I18n.l(value, :format => options[:format]) if value
+            value = self.send(attrib)
+            I18n.l(value.in_time_zone, :format => options[:format]) if value
           end
           # == Create the SET methods
           # EX: def date_of_birth_text=()
