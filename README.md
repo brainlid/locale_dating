@@ -23,55 +23,63 @@ While solving this problem, we get some other nice benefits. More on that after 
 
 Use the defined I18n locale formats from your application.
 
-    # /config/locales/en.yml
-    en:
-      date:
-        formats:
-          default: '%m/%d/%Y'
-          short: '%m/%d/%Y'
-          long: ! '%Y-%m-%d'
-          ymd: ! '%Y-%m-%d'
-      datetime:
-        formats:
-          default: '%m/%d/%Y'
-          short: '%m/%d/%Y'
-          long: ! '%m/%d/%Y %I:%M%p'
-      time:
-        am: am
-        formats:
-          default: ! '%m/%d/%Y %I:%M%p'
-          short: ! '%I:%M%p'
-          long: ! '%m/%d/%Y %I:%M%p'
-        pm: pm
+```yaml
+# /config/locales/en.yml
+en:
+  date:
+    formats:
+      default: '%m/%d/%Y'
+      short: '%m/%d/%Y'
+      long: ! '%Y-%m-%d'
+      ymd: ! '%Y-%m-%d'
+  datetime:
+    formats:
+      default: '%m/%d/%Y'
+      short: '%m/%d/%Y'
+      long: ! '%m/%d/%Y %I:%M%p'
+  time:
+    am: am
+    formats:
+      default: ! '%m/%d/%Y %I:%M%p'
+      short: ! '%I:%M%p'
+      long: ! '%m/%d/%Y %I:%M%p'
+    pm: pm
+```
 
 Specify which model attributes should be
 
-    # /app/models/person.rb
-    class Person < ActiveRecord::Base
-      locale_date :born_on
-      locale_datetime :last_seen_at
-      locale_time :start_time
-    end
+```ruby
+# /app/models/person.rb
+class Person < ActiveRecord::Base
+  locale_date :born_on
+  locale_datetime :last_seen_at
+  locale_time :start_time
+end
+```
 
 ## Behavior and Benefits
 
 LocaleDating doesn't override the model's attribute. So you can still access the native data type directly as needed.
 
-    p = Person.new
-    p.born_on = Date.new(2010, 10, 4)
+```ruby
+p = Person.new
+p.born_on = Date.new(2010, 10, 4)
+```
 
 LocaleDating creates wrapper methods for accessing the underlying value as text through your desired locale format.
 It uses locale's 'default' format if no format is specified.
 
 Because the attribute isn't overridden, you can specify multiple supported formats for a single attribute.
 
-    # /app/models/person.rb
-    class Person < ActiveRecord::Base
-      locale_datetime :last_seen_at
-      locale_datetime :last_seen_at, :format => :long
-      locale_datetime :last_seen_at, :format => :short, :ending => :shortened
-      locale_datetime :last_seen_at, :format => :special, :name => :last_seen_so_special
-    end
+```ruby
+# /app/models/person.rb
+class Person < ActiveRecord::Base
+  locale_datetime :last_seen_at
+  locale_datetime :last_seen_at, :format => :long
+  locale_datetime :last_seen_at, :format => :short, :ending => :shortened
+  locale_datetime :last_seen_at, :format => :special, :name => :last_seen_so_special
+end
+```
 
 Generated wrapper methods:
 
@@ -82,10 +90,12 @@ Generated wrapper methods:
 
 In a view, you specify which version you want used by referencing the name like this:
 
-    <%= form_for @person do %>
-       <%= f.label :born_on_as_text, 'Born On' %>:
-       <%= f.text_field :born_on_as_text %><br />
-    <% end %>
+```erb
+<%= form_for @person do %>
+  <%= f.label :born_on_as_text, 'Born On' %>:
+  <%= f.text_field :born_on_as_text %><br />
+<% end %>
+```
 
 The input's value is the :born_on value converted to text using the locale specified format. The controller receives
 the user's modified text and passes it to the wrapper method. The wrapper method parses the text using the format
