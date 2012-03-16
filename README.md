@@ -74,6 +74,7 @@ Because the attribute isn't overridden, you can specify multiple supported forma
     end
 
 Generated wrapper methods:
+
 * when using the default format on :last_seen_at, it will be 'last_seen_at_as_text'
 * when using the format :long on :last_seen_at, it will be 'last_seen_at_as_long'
 * when specifying the ending 'shortened', it will be 'last_seen_at_shortened'
