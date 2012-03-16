@@ -13,6 +13,7 @@ changed the default date parsing format from mm/dd/yyyy to dd/mm/yyyy. When lett
 on a form as text, Rails could no longer correctly parse a US date by default.
 
 Common solutions seem to result in:
+
 * explicitly converting the date to text and assigning to the form input
 * parsing the form's param in the controller action and assigning to the model
 
