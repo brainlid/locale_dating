@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  born_on: 2012-02-26
+  last_seen_at: 2012-02-26 22:28:55
+  start_time: 2012-02-26 22:28:55
+
+two:
+  name: MyString
+  born_on: 2012-02-26
+  last_seen_at: 2012-02-26 22:28:55
+  start_time: 2012-02-26 22:28:55
