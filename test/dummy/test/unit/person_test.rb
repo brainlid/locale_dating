@@ -114,6 +114,16 @@ class PersonTest < ActiveSupport::TestCase
     assert_equal nil, p.last_seen_at_as_text
   end
 
+  test "support assigning a nil value" do
+    p = Person.new(:born_on => Date.today, :start_time => Time.zone.now, :last_seen_at => DateTime.now)
+    p.born_on_as_text = nil
+    p.start_time_as_text = nil
+    p.last_seen_at_as_text = nil
+    assert_equal nil, p.born_on
+    assert_equal nil, p.start_time
+    assert_equal nil, p.last_seen_at
+  end
+
   #
   # Custom Date behavior
   #
@@ -253,4 +263,44 @@ class PersonTest < ActiveSupport::TestCase
                  p.start_time.to_time        # underlying UTC value
   end
 
+  #
+  # Set multiple attributes on one line
+  #
+  test "multiple attributes set at once" do
+    class MultipleDefaultAttributesSet
+      include LocaleDating
+      attr_accessor :some_date_1, :some_date_2
+      locale_date :some_date_1, :some_date_2
+    end
+    i = MultipleDefaultAttributesSet.new
+    assert i.respond_to?(:some_date_1_as_text)
+    assert i.respond_to?(:some_date_1_as_text=)
+    assert i.respond_to?(:some_date_2_as_text)
+    assert i.respond_to?(:some_date_2_as_text=)
+  end
+
+  test "multiple attributes cannot use :name" do
+    #TODO: Validate that an exception is raised. Raise exception for overwriting an existing method.
+    assert_raise LocaleDating::MethodOverwriteError do
+      class MultipleNamedAttributesSet
+        include LocaleDating
+        attr_accessor :some_datetime_1, :some_datetime_2
+        locale_datetime :some_datetime_1, :some_datetime_2, :name => :some_explicit_function_name
+      end
+    end
+  end
+
+  #
+  # Prevent unintentional method overwrites
+  #
+  test "exception when overwriting existing method" do
+    assert_raise LocaleDating::MethodOverwriteError do
+      class ExistingMethodFound
+        include LocaleDating
+        attr_accessor :some_time_1
+        def name(); 'howdy' end
+        locale_time :some_time_1, :name => :name
+      end
+    end
+  end
 end
