@@ -46,7 +46,7 @@ en:
     pm: pm
 ```
 
-Specify which model attributes should be
+Specify which model attributes should have the plugin applied.
 
 ```ruby
 # /app/models/person.rb
@@ -78,6 +78,15 @@ class Person < ActiveRecord::Base
   locale_datetime :last_seen_at, :format => :long
   locale_datetime :last_seen_at, :format => :short, :ending => :shortened
   locale_datetime :last_seen_at, :format => :special, :name => :last_seen_so_special
+end
+```
+
+Multiple attributes can be assigned at one time if they are of the same data type.
+
+```ruby
+# /app/models/person.rb
+class Person < ActiveRecord::Base
+  locale_date :born_on, :died_on, :married_on
 end
 ```
 
